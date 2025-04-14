@@ -2,11 +2,11 @@
 #include <iostream>;
 #include <vector>;
 #include "Ant.h";
+using namespace std;
 
 class Anthill
 {
 private:
-	vector<vector<Ant*>> home;
 	int size;
 	int eat;
 	int branches;
@@ -14,11 +14,13 @@ private:
 	int aphid;
 	int garbage;
 public:
+	vector<vector<Ant*> > home;
 	Anthill();
 	~Anthill();
 	void Update();
 	int sizeCheck() { return size; }
 	int eatCheck() { return eat; }
+	int capacityCheck() { return capacity; }
 	int branchesCheck() { return branches; }
 	int aphidCheck() { return aphid; }
 	int garbageCheck() { return garbage; }

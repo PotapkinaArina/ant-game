@@ -1,6 +1,7 @@
 #include "Role.h"
 #include "Ant.h"
 #include "Anthill.h";
+using namespace std;
 
 void NannyRole::Work(Ant* ant, Anthill* home)
 {
@@ -20,10 +21,26 @@ void NannyRole::Work(Ant* ant, Anthill* home)
 	{
 		//food logics 
 	}
-};
+}
+void NannyRole::attackEnemy(Anthill* home)
+{
+}
+void NannyRole::onEvent(const std::string& event, Anthill* home)
+{
+}
+;
 
 
 void SoldierRole::Work(Ant* ant, Anthill* home)
+{
+	std::cout << "Soldier is doing job" << std::endl;
+}
+
+void SoldierRole::attackEnemy(Anthill* home)
+{
+}
+
+void SoldierRole::onEvent(const std::string& event, Anthill* home)
 {
 }
 
@@ -34,6 +51,14 @@ void ShepherdRole::Work(Ant* ant, Anthill* home)
 	{
 		//grazes aphids, food increases
 	}
+}
+
+void ShepherdRole::attackEnemy(Anthill* home)
+{
+}
+
+void ShepherdRole::onEvent(const std::string& event, Anthill* home)
+{
 }
 
 void GathererRole::Work(Ant* ant, Anthill* home)
@@ -57,6 +82,14 @@ void GathererRole::Work(Ant* ant, Anthill* home)
 	}
 }
 
+void GathererRole::attackEnemy(Anthill* home)
+{
+}
+
+void GathererRole::onEvent(const std::string& event, Anthill* home)
+{
+}
+
 void BuilderRole::Work(Ant* ant, Anthill* home)
 {
 	if (home->branchesCheck() != 0 && home->sizeCheck() < 10)
@@ -67,8 +100,24 @@ void BuilderRole::Work(Ant* ant, Anthill* home)
 	}
 }
 
+void BuilderRole::attackEnemy(Anthill* home)
+{
+}
+
+void BuilderRole::onEvent(const std::string& event, Anthill* home)
+{
+}
+
 void CleanerRole::Work(Ant* ant, Anthill* home)
 {
 	if (home->garbageCheck() > 0)
 		home->garbageMinus();
+}
+
+void CleanerRole::attackEnemy(Anthill* home)
+{
+}
+
+void CleanerRole::onEvent(const std::string& event, Anthill* home)
+{
 }
