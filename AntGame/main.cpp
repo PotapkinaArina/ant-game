@@ -54,7 +54,7 @@ int main() {
     printAnthillState(home);
 
     // 3. Применение обновлений и отслеживание изменений
-    for (int update_count = 1; update_count <= 5; ++update_count) { // Увеличение итераций
+    for (int update_count = 1; update_count <= 3; ++update_count) { // Увеличение итераций
         cout << "\n--- Update() #" << update_count << " ---" << endl;
         home.Update();
 

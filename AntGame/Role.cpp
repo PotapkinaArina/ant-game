@@ -13,7 +13,6 @@ void NannyRole::Work(Ant* ant, Anthill* home)
 		else if (behavior == 1)
 		{
 			cout << "Oh no, your children are lost!" << endl;
-			home->babyGet(1);
 			cout << home->babyCheck() - 1 << " children left" << endl;
 		}
 	}

@@ -1,16 +1,28 @@
 #include "Ant.h"
 #include "Role.h"
+#include "Anthill.h"
+#include <set>
 #include <iostream>
+#include <vector>
 using namespace std;
 
-Ant::Ant(int a, int h) :age(a), health(h)
+Ant::Ant(int a, int h) :age(a), health(h), role(nullptr), currentRoleIndex(0)
 {
-	setRole();
 }
 
 Ant::~Ant()
 {
 	delete role;
+}
+
+set<int>s = { 3,10,20,28,31 };
+void Ant::AgeOneYear()
+{
+    age++;
+    if (s.count(age))
+        needToUpdate = true;
+    else
+        needToUpdate = false;
 }
 
 void Ant::printInfo() const
@@ -19,70 +31,51 @@ void Ant::printInfo() const
 	cout << "Health:" << health << "\n";
 }
 
-Role* Ant::setRole()
-{
-    Role* new_role = nullptr;
-    delete role;
+void Ant::setRole(Anthill* home) {
+    int oldRoleIndex = currentRoleIndex;
+
+    if (role != nullptr) {
+        delete role; // удаляем предыдущую роль
+        role = nullptr;
+    }
 
     if (age < 3) {
-        role = nullptr;
         currentRoleIndex = 0;
     }
     else if (age < 10) {
-        new_role = new NannyRole();
+        role = new NannyRole();
         currentRoleIndex = 1;
     }
     else if (age < 20 && health>50) {
-        new_role = new SoldierRole();
+        role = new SoldierRole();
         currentRoleIndex = 2;
     }
     else if (age < 20 && health <= 50) {
-        new_role = new ShepherdRole();
+        role = new ShepherdRole();
         currentRoleIndex = 3;
     }
     else if (age < 28 && health>30) {
-        new_role = new BuilderRole();
+        role = new BuilderRole();
         currentRoleIndex = 4;
     }
     else if (age < 28 && health <= 30) {
-        new_role = new GathererRole();
+        role = new GathererRole();
         currentRoleIndex = 5;
     }
     else if (age <= 30) {
-        new_role = new CleanerRole();
+        role = new CleanerRole();
         currentRoleIndex = 6;
     }
-    else {
-        new_role = nullptr;
-        currentRoleIndex = 7;
+
+    if (currentRoleIndex != oldRoleIndex) {
+        home->home[currentRoleIndex].push_back(this);
+
+        for (size_t i = 0; i < home->home[oldRoleIndex].size(); ++i) {
+            if (home->home[oldRoleIndex][i] == this) {
+                home->home[oldRoleIndex].erase(home->home[oldRoleIndex].begin() + i);
+                break;
+            }
+        }
     }
-    role = new_role;
-    return new_role;
 }
 
-int Ant::getRoleIndex() const {
-    if (age < 3) {
-        return 0;
-    }
-    else if (age < 10) {
-        return 1;
-    }
-    else if (age < 20 && health > 50) {
-        return 2;
-    }
-    else if (age < 20 && health <= 50) {
-        return 3;
-    }
-    else if (age < 28 && health > 30) {
-        return 4;
-    }
-    else if (age < 28 && health <= 30) {
-        return 5;
-    }
-    else if (age <= 30) {
-        return 6;
-    }
-    else {
-        return 7;
-    }
-}
