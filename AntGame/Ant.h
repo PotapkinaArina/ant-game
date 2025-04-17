@@ -1,22 +1,31 @@
 #pragma once
 #include <iostream>
-#include <memory>
+#include "Anthill.h"
 #include "Role.h"
 using namespace std;
 
 class Ant {
 public:
-	void Update() {
-		age += 5;
-		health--;
-		RoleChange();
-	}
-	void RoleChange() {
-		if (age < 2 || health < 10) return;
-		if (age < 10) { newRole = std::make_unique<NannyRole>(); }
-	}
+	Ant(int a = 0, int h = 100);
+	~Ant();
+	void setRole(Anthill* home);
+
+	void AgeOneYear();
+	void healthPlus(int x) { health += x; }
+	void healthMinus(int x) { health -= x; }
+	void changeUpdate() { needToUpdate = !needToUpdate; }
+	void changeCurrentRoleIndex(int i) { currentRoleIndex = i; }
+
+	void printInfo()const;
+	int getAge()const { return age; }
+	int getHealth()const { return health; }
+	Role* getRole()const { return role; }
+	string getRoleName(Ant* ant);
+	int getCurrentRoleIndex()const { return currentRoleIndex; }
+	bool getUpdate()const { return needToUpdate; }
+
 private:
-	int age = 0;
-	std::unique_ptr<Role> newRole;
-	int health = 100;
+	int age, health, currentRoleIndex = 0;
+	Role* role = nullptr;
+	bool needToUpdate = false;
 };
