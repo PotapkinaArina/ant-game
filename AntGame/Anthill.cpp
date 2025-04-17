@@ -1,6 +1,7 @@
 #include "Ant.h"
 #include "Anthill.h"
 #include <algorithm> 
+#include <vector>
 using namespace std;
 
 Anthill::Anthill()
@@ -66,6 +67,7 @@ Anthill::Anthill()
             home[i][j] = ant;
         }
     }
+    updateAntPositions();
 }
 
 Anthill::~Anthill()
@@ -102,9 +104,9 @@ void Anthill::Update() {
         for (int j = home[i].size() - 1; j >= 0; --j)
         {
             home[i][j]->AgeOneYear();
-            if (home[i][j]->getHealth() <= 0)
+            if (home[i][j]->getHealth() <= 0 || home[i][j]->getAge() > 30)
             {
-                home[i][j]->~Ant();
+                delete home[i][j];
                 home[i].erase(home[i].begin() + j);
                 garbagePlus(2);
             }
@@ -130,6 +132,30 @@ void Anthill::Update() {
         if (flag == 1) break;
     }
 
+    updateAntPositions();
+}
+
+void Anthill::updateAntPositions() {
+    for (auto& roleGroup : home) {
+        for (Ant* ant : roleGroup) {
+            int x = rand() % 10; // Пример: случайные координаты от 0 до 9
+            int y = rand() % 10;
+            ant->setX(x);
+            ant->setY(y);
+        }
+    }
+}
+
+std::vector<Ant*> Anthill::getLiveAnts() const {
+    std::vector<Ant*> liveAnts;
+    for (const auto& roleGroup : home) {
+        for (Ant* ant : roleGroup) {
+            if (ant->getHealth() > 0) {
+                liveAnts.push_back(ant);
+            }
+        }
+    }
+    return liveAnts;
 }
 
 void Anthill::removeLastBaby()
@@ -249,4 +275,8 @@ void Anthill::garbagePlus(int x)
 void Anthill::garbageMinus(int x)
 {
     garbage = std::max(garbage - x, 0);
+}
+
+void Anthill::addEventMessage(string message) {
+    eventMessage = message;
 }

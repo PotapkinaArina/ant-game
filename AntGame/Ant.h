@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <vector>
+#include <SFML/Graphics.hpp>  
 #include "Anthill.h"
 #include "Role.h"
 using namespace std;
@@ -24,8 +26,15 @@ public:
 	int getCurrentRoleIndex()const { return currentRoleIndex; }
 	bool getUpdate()const { return needToUpdate; }
 
+	void setX(int x) { this->x = x; }
+	void setY(int y) { this->y = y; }
+	int getX() const { return x; }
+	int getY() const { return y; }
+
 private:
 	int age, health, currentRoleIndex = 0;
 	Role* role = nullptr;
 	bool needToUpdate = false;
+	int x = 0;
+	int y = 0;
 };

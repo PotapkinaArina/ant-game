@@ -30,6 +30,9 @@
     <ClCompile Include="enemyGroup.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ant.h">
@@ -42,6 +45,9 @@
       <Filter>Файлы ресурсов</Filter>
     </ClInclude>
     <ClInclude Include="enemyGroup.h">
+      <Filter>Файлы ресурсов</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
       <Filter>Файлы ресурсов</Filter>
     </ClInclude>
   </ItemGroup>

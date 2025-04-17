@@ -5,7 +5,6 @@
 #define NUM_ROLES 7
 #define INITIAL 5
 using namespace std;
-
 class Ant;
 
 class Anthill
@@ -21,12 +20,17 @@ private:
 	int happyAphid;
 	int attackFlag;
 	int resourcesFlag;
+	bool newBabyBornFlag = false;
+	string eventMessage;
+	bool showEnemies = false;
 
 public:
 	vector<vector<Ant*> > home;
 	Anthill();
 	~Anthill();
 	void Update();
+	void updateAntPositions();
+	vector<Ant*> getLiveAnts() const;
 	int sizeCheck() { return size; }
 	int eatCheck() { return eat; }
 	int capacityCheck() { return capacity; }
@@ -66,4 +70,12 @@ public:
 
 	vector<vector<Ant*>>& getHome() { return home; }
 	int babySet();
+	bool getNewBabyBornFlag() const { return newBabyBornFlag; }
+	void setNewBabyBornFlag(bool flag) { newBabyBornFlag = flag; }
+
+	void addEventMessage(string message);
+	string getEventMessage() const { return eventMessage; }
+
+	bool getShowEnemies() const { return showEnemies; } // Add this to public section
+	void setShowEnemies(bool flag) { showEnemies = flag; }
 };
