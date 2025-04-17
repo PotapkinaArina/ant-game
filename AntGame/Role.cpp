@@ -66,8 +66,6 @@ void NannyRole::onEvent(const std::string& event, Anthill* home)
 	}
 };
 
-
-
 void SoldierRole::Work(Ant* ant, Anthill* home)
 {
 	std::cout << "Soldier is doing job" << std::endl;
@@ -90,7 +88,6 @@ void SoldierRole::onEvent(const std::string& event, Anthill* home)
 		attackEnemy(home);
 	}
 }
-
 
 void ShepherdRole::Work(Ant* ant, Anthill* home)
 {
@@ -119,7 +116,6 @@ void ShepherdRole::onEvent(const std::string& event, Anthill* home)
 		attackEnemy(home);
 	}
 }
-
 
 void GathererRole::Work(Ant* ant, Anthill* home)
 {

@@ -118,8 +118,6 @@ void Anthill::Update() {
             if (home[i][j]->getUpdate())
             {
                 Ant* ant = home[i][j];
-                int oldRoleIndex = i;
-
                 ant->setRole(this);
                 ant->changeUpdate();
             }
@@ -133,7 +131,6 @@ void Anthill::Update() {
     }
 
 }
-
 
 void Anthill::removeLastBaby()
 {
