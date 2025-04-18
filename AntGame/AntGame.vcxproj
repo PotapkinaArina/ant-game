@@ -135,6 +135,7 @@
     <ClCompile Include="Anthill.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="enemyGroup.cpp" />
+    <ClCompile Include="EventSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Role.cpp" />
   </ItemGroup>
@@ -143,6 +144,7 @@
     <ClInclude Include="Anthill.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="enemyGroup.h" />
+    <ClInclude Include="EventSystem.h" />
     <ClInclude Include="Role.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

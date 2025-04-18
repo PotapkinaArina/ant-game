@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <string>
@@ -10,65 +10,59 @@
 #include "EnemyGroup.h"
 #include "Button.h"
 #include "Ant.h"
+#include "EventSystem.h"
 
-// Constants
 const int WINDOW_WIDTH = 1200;
 const int WINDOW_HEIGHT = 700;
 const int GRID_SIZE = 15;
 const int CELL_SIZE = 40;
 
-// Function to clear the screen (SFML doesn't need this, but I'm keeping it for consistency)
 void clearScreen() {}
 
-// Function to draw the anthill grid using SFML
 void drawAnthillGrid(sf::RenderWindow& window, Anthill& anthill) {
     int gridSize = anthill.sizeCheck();
 
-    // Draw grid cells
     for (int i = 0; i < GRID_SIZE; ++i) {
         for (int j = 0; j < GRID_SIZE; ++j) {
             sf::RectangleShape cell(sf::Vector2f(CELL_SIZE, CELL_SIZE));
             cell.setPosition(j * CELL_SIZE, i * CELL_SIZE);
-            cell.setFillColor(sf::Color(100, 150, 100)); // A nicer green
+            cell.setFillColor(sf::Color(100, 150, 100));
             window.draw(cell);
         }
     }
 
-    // Place ants on the grid
     auto liveAnts = anthill.getLiveAnts();
-    int antCount = 0; // To track ant placement
+    int antCount = 0;
 
     for (Ant* ant : liveAnts) {
         int x = ant->getX();
         int y = ant->getY();
 
         if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
-            // Calculate grid position for structured layout
+
             int gridX = antCount % GRID_SIZE;
             int gridY = antCount / GRID_SIZE;
 
             sf::RectangleShape antShape(sf::Vector2f(CELL_SIZE, CELL_SIZE));
-            antShape.setPosition(gridX * CELL_SIZE, gridY * CELL_SIZE); // Use calculated grid position
+            antShape.setPosition(gridX * CELL_SIZE, gridY * CELL_SIZE);
 
-            // Determine color based on role
             switch (ant->getCurrentRoleIndex()) {
-            case 0: antShape.setFillColor(sf::Color::White); break;     // Baby
-            case 1: antShape.setFillColor(sf::Color::Cyan); break;    // Nanny
-            case 2: antShape.setFillColor(sf::Color::Green); break;  // Soldier
-            case 3: antShape.setFillColor(sf::Color::Red); break; // Shepherd
-            case 4: antShape.setFillColor(sf::Color(148, 0, 211)); break;    // Gatherer (Сиреневый)
-            case 5: antShape.setFillColor(sf::Color(139, 69, 19)); break;   // Builder (Коричневый)
-            case 6: antShape.setFillColor(sf::Color(255, 165, 0)); break;   // Cleaner (Оранжевый)
-            default: antShape.setFillColor(sf::Color::Green); break;   // Default
+            case 0: antShape.setFillColor(sf::Color::White); break; 
+            case 1: antShape.setFillColor(sf::Color::Cyan); break;  
+            case 2: antShape.setFillColor(sf::Color::Green); break; 
+            case 3: antShape.setFillColor(sf::Color::Red); break; 
+            case 4: antShape.setFillColor(sf::Color(148, 0, 211)); break;    
+            case 5: antShape.setFillColor(sf::Color(139, 69, 19)); break;   
+            case 6: antShape.setFillColor(sf::Color(255, 165, 0)); break;  
+            default: antShape.setFillColor(sf::Color::Green); break;
             }
 
             window.draw(antShape);
-            antCount++; // Increment ant count
+            antCount++;
         }
     }
 }
 
-// Function to draw anthill information using SFML
 void drawAnthillInfo(sf::RenderWindow& window, Anthill& anthill, int year) {
     sf::Font font;
     std::string fontPath = "C:/Users/anans/Desktop/Ants/x64/Debug/arial.ttf";
@@ -94,7 +88,7 @@ void drawAnthillInfo(sf::RenderWindow& window, Anthill& anthill, int year) {
     text.setPosition(GRID_SIZE * CELL_SIZE + 20, 20);
     window.draw(text);
 }
-// Function to draw enemies (visual implementation)
+
 void drawEnemies(sf::RenderWindow& window) {
     sf::CircleShape enemy(20);
     enemy.setFillColor(sf::Color::Black);
@@ -103,7 +97,6 @@ void drawEnemies(sf::RenderWindow& window) {
 
 }
 
-// Function to apply fire damage to the anthill
 void applyFire(Anthill& anthill)
 {
     int damage = rand() % 2 + 1;
@@ -114,13 +107,14 @@ void applyFire(Anthill& anthill)
 
     auto liveAnts = anthill.getLiveAnts();
     for (Ant* ant : liveAnts) {
-        ant->healthMinus(10);
+        if (ant->getCurrentRoleIndex() != 2)
+        {
+            ant->healthMinus(10);
+        }
     }
 
 }
 void enemiesAttack(Anthill& anthill) {
-    // Логика набега врагов (можете адаптировать из старого кода)
-    //  Например: уменьшение ресурсов, здоровья муравьев, и т.д.
     int damage = rand() % 5 + 1;
     anthill.aphidMinus(damage);
     anthill.eatMinus(damage * 3);
@@ -132,7 +126,7 @@ void enemiesAttack(Anthill& anthill) {
         ant->healthMinus(damageAnt);
     }
 }
-// Function to draw fire (visual implementation)
+
 void drawFire(sf::RenderWindow& window) {
     sf::CircleShape fire(20);
     fire.setFillColor(sf::Color::Red);
@@ -149,7 +143,6 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Ant Game");
     window.setFramerateLimit(60);
 
-    // Load font
     sf::Font font;
     std::string fontPath = "C:/Users/anans/Desktop/Ants/x64/Debug/arial.ttf";
     if (!font.loadFromFile(fontPath)) {
@@ -157,7 +150,6 @@ int main() {
         return -1;
     }
 
-    // Load background texture
     sf::Texture backgroundTexture;
 
     sf::Texture stormTexture;
@@ -169,7 +161,6 @@ int main() {
     stormSprite.setPosition(100, 100);
     stormSprite.setColor(sf::Color(255, 255, 255, 128));
 
-    // Load fire texture
     sf::Texture fireTexture;
     if (!fireTexture.loadFromFile("C:/Users/anans/Desktop/Ants/x64/Debug/fire.png")) {
         std::cerr << "Failed to load fire.png\n";
@@ -179,7 +170,6 @@ int main() {
     fireSprite.setPosition(100, 100);
     fireSprite.setColor(sf::Color(255, 255, 255, 128));
 
-    // Create Button
     Button nextYearButton(
         GRID_SIZE * CELL_SIZE + 20, 500, 150, 50,
         &font, "Next Year",
@@ -200,28 +190,24 @@ int main() {
 
         window.clear();
 
-        // Draw background
-
 
         drawAnthillGrid(window, anthill);
         drawAnthillInfo(window, anthill, year);
-        // Draw fire if event occurred
+        
         if (fireEvent) {
             window.draw(fireSprite);
         }
         if (stormEvent) {
             window.draw(stormSprite);
         }
-        // Draw enemies if attack occurs
         if (anthill.getShowEnemies() && enemyDisplayTime > 0) {
             drawEnemies(window);
-            enemyDisplayTime--; // Уменьшаем время отображения врагов
+            enemyDisplayTime--;
         }
         else {
             anthill.setShowEnemies(false);
         }
 
-        // Update and render button
         nextYearButton.update(sf::Mouse::getPosition(window));
         nextYearButton.render(&window);
 
@@ -230,49 +216,58 @@ int main() {
             anthill.addEventMessage("Game Over! All ants are dead.");
             drawAnthillInfo(window, anthill, year);
             window.display();
-            sf::sleep(sf::seconds(60)); // Подождем 60 секунд, чтобы игрок успел прочитать сообщение
+            sf::sleep(sf::seconds(60));
             window.close();
-            break; // Завершаем основной цикл
+            break;
         }
 
-        // Button click logic
         if (nextYearButton.isPressed() && !nextYearClicked) {
             stormEvent = false;
-            fireEvent = false; // Reset fire event
+            fireEvent = false;
 
-            // Generate random event message
             int randomEvent = rand() % 6;
             switch (randomEvent) {
             case 0:
-                anthill.addEventMessage("Aphids ate some crops.");
+                anthill.Update();
+                anthill.addEventMessage("Enemy attacked!");
                 anthill.setShowEnemies(true);
-                enemyDisplayTime = 5;
+                enemyDisplayTime = 500;
                 enemiesAttack(anthill);
+                anthill.performEvent();
                 break;
             case 1:
-                anthill.addEventMessage("Found a new source of food.");
+                anthill.Update();
+                anthill.addEventMessage("Found a new source of food and branches.");
+                anthill.branchPlus(5);
+                anthill.eatPlus(5);
                 anthill.performWork();
                 break;
             case 2:
+                anthill.Update();
                 anthill.addEventMessage("A storm destroyed some branches.");
                 stormEvent = true;
+                anthill.branchMinus(2);
                 anthill.performWork();
                 break;
             case 3:
+                anthill.Update();
                 anthill.addEventMessage("A new baby ant was born.");
                 anthill.performWork();
                 break;
             case 4:
+                anthill.Update();
                 anthill.addEventMessage("Nothing happened this year.");
                 anthill.performWork();
                 break;
             case 5:
+                anthill.Update();
                 anthill.addEventMessage("Fire broke out in the anthill!");
                 fireEvent = true;
                 applyFire(anthill);
                 anthill.performWork();
                 break;
             default:
+                anthill.Update();
                 anthill.addEventMessage("Unknown event.");
                 anthill.performWork();
                 break;
@@ -287,6 +282,11 @@ int main() {
 
             year++;
             nextYearClicked = true;
+            if (anthill.resourcesCheck() == 1)
+            {
+                cout << "GAME OVER" << endl;
+                return 0;
+            }
         }
         else if (!sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             nextYearClicked = false;

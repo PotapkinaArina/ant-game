@@ -66,6 +66,7 @@ public:
 	void removeLastBaby();
 	void performWork();
 	void attackFlagChange() { attackFlag = 1; }
+	void performEvent();
 	int resourcesCheck();
 
 	vector<vector<Ant*>>& getHome() { return home; }
@@ -76,6 +77,6 @@ public:
 	void addEventMessage(string message);
 	string getEventMessage() const { return eventMessage; }
 
-	bool getShowEnemies() const { return showEnemies; } // Add this to public section
+	bool getShowEnemies() const { return showEnemies; }
 	void setShowEnemies(bool flag) { showEnemies = flag; }
 };

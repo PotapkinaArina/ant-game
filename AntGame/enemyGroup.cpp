@@ -3,8 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
-#include <numeric>  // Для std::accumulate
-#include <algorithm> // Для std::shuffle
+#include <numeric>
+#include <algorithm>
 
 using namespace std;
 
@@ -16,7 +16,7 @@ Enemy::Enemy(int groupSize)
     {
         int health = rand() % (200 - 50 + 1) + 50;
         int strength = rand() % (15 - 5 + 1) + 5;
-        enemies.emplace_back(health, strength); // Создаем и добавляем врага
+        enemies.emplace_back(health, strength);
     }
 }
 
@@ -28,34 +28,29 @@ void Enemy::attackAntHill(std::vector<vector<Ant*> > ants)
         return;
     }
 
-    //создаём вектор солдат и вектор остальных муравьёв
     std::vector<Ant*> soldiers;
     std::vector<Ant*> others;
     for (int i = 0; i < ants.size(); i++)
     {
         for (int j = 0; j < ants[i].size(); j++) {
             if (ants[i][j]->getCurrentRoleIndex() == 2 && ants[i][j]->getHealth() > 0) {
-                soldiers.push_back(ants[i][j]); // Сохраняем указатель на солдата
+                soldiers.push_back(ants[i][j]);
             }
             else if (ants[i][j]->getHealth() > 0) {
-                others.push_back(ants[i][j]); // Сохраняем указатель на не солдата
+                others.push_back(ants[i][j]);
             }
         }
     }
 
-    //2. начало атаки врагов
     for (EnemyIndividual& enemy : enemies) {
-        if (!enemy.isAlive) continue; // Пропускаем мертвых врагов
+        if (!enemy.isAlive) continue;
 
-        Ant* target = nullptr; //Цель для атаки
+        Ant* target = nullptr;
 
-        //Выбираем случайную цель
         if (!soldiers.empty()) {
-            //Если есть солдаты, выбираем случайного солдата
             target = soldiers[rand() % soldiers.size()];
         }
         else if (!others.empty()) {
-            //Если нет солдат, выбираем случайного муравья
             target = others[rand() % others.size()];
         }
         else
@@ -71,7 +66,6 @@ void Enemy::attackAntHill(std::vector<vector<Ant*> > ants)
         if (target->getHealth() <= 0) {
             std::cout << target->getRoleName(target) << " is dead!\n";
 
-            //Удаляем муравья из списка (soldiers или others)
             if (target->getCurrentRoleIndex() == 2) {
                 for (size_t i = 0; i < soldiers.size(); ++i) {
                     if (soldiers[i] == target) {
@@ -90,7 +84,6 @@ void Enemy::attackAntHill(std::vector<vector<Ant*> > ants)
             }
         }
     }
-    //ДОБАВИЛА
     int enemies_damage = 0;
     for (int i = 0; i < soldiers.size(); i++)
     {
@@ -112,7 +105,6 @@ void Enemy::printInfo() const {
 }
 
 bool Enemy::isAlive() const {
-    // Проверяем, есть ли хоть один живой враг в группе
     for (const auto& enemy : enemies) {
         if (enemy.isAlive) {
             return true;
@@ -122,9 +114,7 @@ bool Enemy::isAlive() const {
 }
 
 void Enemy::distributeDamage(int damage) {
-    //Случайным образом распределяем урон между врагами
     while (damage > 0) {
-        // Выбираем случайного живого врага
         vector<size_t> aliveEnemyIndices;
         for (size_t i = 0; i < enemies.size(); ++i) {
             if (enemies[i].isAlive) {
@@ -132,12 +122,11 @@ void Enemy::distributeDamage(int damage) {
             }
         }
 
-        if (aliveEnemyIndices.empty()) return; // Все враги мертвы
+        if (aliveEnemyIndices.empty()) return; 
 
         size_t targetIndex = aliveEnemyIndices[rand() % aliveEnemyIndices.size()];
 
-        // Наносим урон
-        int damageToApply = rand() % damage + 1;  //Наносим случайное кол-во урона
+        int damageToApply = rand() % damage + 1; 
         enemies[targetIndex].health -= damageToApply;
 
         if (enemies[targetIndex].health <= 0) {
@@ -145,6 +134,6 @@ void Enemy::distributeDamage(int damage) {
             enemies[targetIndex].health = 0;
         }
 
-        damage -= damageToApply;  //Уменьшаем общий урон
+        damage -= damageToApply; 
     }
 }

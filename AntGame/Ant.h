@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>  
 #include "Anthill.h"
 #include "Role.h"
+#include "EventSystem.h"
 using namespace std;
 
 class Ant {
@@ -36,5 +37,7 @@ private:
 	Role* role = nullptr;
 	bool needToUpdate = false;
 	int x = 0;
-	int y = 0;
+	int y = 0; 
+	void unsubscribeAll();
+	void subscribeBasedOnRole();
 };

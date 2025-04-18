@@ -6,15 +6,15 @@
 class Enemy {
 public:
     Enemy();
-    Enemy(int groupSize); // Создаем группу врагов
-    void attackAntHill(std::vector<vector<Ant*> > home); // Атака муравейника (группы муравьев)
+    Enemy(int groupSize); 
+    void attackAntHill(std::vector<vector<Ant*> > home); 
     void printInfo() const;
 
-    bool isAlive() const; // Проверяет, жива ли хоть одна особь в группе
+    bool isAlive() const; 
     int getGroupSize() const { return enemies.size(); }
 
 private:
-    struct EnemyIndividual {  //Внутренняя структура для отдельного врага
+    struct EnemyIndividual {  
         int health;
         int strength;
         bool isAlive;
@@ -22,6 +22,6 @@ private:
         EnemyIndividual(int h, int s) : health(h), strength(s), isAlive(true) {}
     };
 
-    std::vector<EnemyIndividual> enemies; // Вектор отдельных врагов
-    void distributeDamage(int damage); // Метод для распределения урона по группе
+    std::vector<EnemyIndividual> enemies;
+    void distributeDamage(int damage);
 };

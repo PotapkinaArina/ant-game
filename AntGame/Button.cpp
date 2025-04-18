@@ -27,23 +27,18 @@ Button::Button(float x, float y, float width, float height,
 
 Button::~Button() {}
 
-//Accessors
 bool Button::isPressed() const {
     return this->buttonState == BTN_ACTIVE;
 }
 
-//Functions
 void Button::update(const sf::Vector2i& mousePos)
 {
-    //IDLE
     this->buttonState = BTN_IDLE;
 
-    //HOVER
     if (this->shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
     {
         this->buttonState = BTN_HOVER;
 
-        //PRESSED
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
             this->buttonState = BTN_ACTIVE;

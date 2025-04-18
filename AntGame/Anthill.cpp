@@ -44,7 +44,7 @@ Anthill::Anthill()
             else if (i == 3)
             {
                 age = 10;
-                h = 50;
+                h = 80;
             }
             else if (i == 4)
             {
@@ -54,7 +54,7 @@ Anthill::Anthill()
             else if (i == 5)
             {
                 age = 20;
-                h = 30;
+                h = 50;
             }
             else if (i == 6)
             {
@@ -138,7 +138,7 @@ void Anthill::Update() {
 void Anthill::updateAntPositions() {
     for (auto& roleGroup : home) {
         for (Ant* ant : roleGroup) {
-            int x = rand() % 10; // Пример: случайные координаты от 0 до 9
+            int x = rand() % 10;
             int y = rand() % 10;
             ant->setX(x);
             ant->setY(y);
@@ -173,6 +173,16 @@ void Anthill::performWork()
             if (home[i][j]->getHealth() > 0 && home[i][j]->getRole()) {
                 home[i][j]->getRole()->Work(home[i][j], this);
             }
+        }
+    }
+}
+
+void Anthill::performEvent()
+{
+    for (int i = 1; i < 7; i++) {
+        for (int j = 0; j < home[i].size(); j++) 
+        {
+                home[i][j]->getRole()->onEvent("AttackOnNest: Everyone, defend the nest!", (this));
         }
     }
 }

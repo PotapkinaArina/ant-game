@@ -1,4 +1,4 @@
-#include "Role.h"
+п»ї#include "Role.h"
 #include "Ant.h"
 #include "Anthill.h"
 using namespace std;
@@ -21,7 +21,6 @@ void NannyRole::Work(Ant* ant, Anthill* home)
 	{
 		auto& babies = home->getBabies();
 		if (babies.empty()) return;
-		// Поиск ребенка с минимальным здоровьем
 		Ant* weakestBaby = nullptr;
 		int minHealth = 100;
 
@@ -32,13 +31,11 @@ void NannyRole::Work(Ant* ant, Anthill* home)
 			}
 		}
 
-		// Если есть ребенок, который не полностью здоров
 		if (weakestBaby && weakestBaby->getHealth() < 100) {
 			weakestBaby->healthPlus(10);
 			home->eatMinus(1);
 		}
 	}
-	// Все дети здоровы - кормим солдат
 	else if (home->eatCheck() > 0 && home->SoldierCheck() > 0)
 	{
 		auto& soldiers = home->getSoldiers();
@@ -100,7 +97,7 @@ void ShepherdRole::Work(Ant* ant, Anthill* home)
 		if (flag == 0)
 		{
 			cout << "The ant got some tasty nectar" << endl;
-			home->eatPlus(5);
+			home->eatPlus(home[0].aphidCheck());
 		}
 	}
 }
@@ -164,7 +161,7 @@ void GathererRole::largeFood(Anthill* home)
 	if (flag == 0)
 	{
 		cout << "Work is in progress!" << endl;
-		home->eatPlus(5);
+		home->eatPlus(15);
 	}
 }
 

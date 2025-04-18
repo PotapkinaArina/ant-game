@@ -1,6 +1,7 @@
 #include "Ant.h"
 #include "Role.h"
 #include "Anthill.h"
+#include "EventSystem.h"
 #include <set>
 #include <iostream>
 #include <vector>
@@ -60,19 +61,19 @@ void Ant::setRole(Anthill* home) {
         role = new NannyRole();
         currentRoleIndex = 1;
     }
-    else if (age < 20 && health>50) {
+    else if (age < 20 && health>80) {
         role = new SoldierRole();
         currentRoleIndex = 2;
     }
-    else if (age < 20 && health <= 50) {
+    else if (age < 20 && health <= 80) {
         role = new ShepherdRole();
         currentRoleIndex = 3;
     }
-    else if (age < 28 && health>30) {
+    else if (age < 28 && health>50) {
         role = new BuilderRole();
         currentRoleIndex = 4;
     }
-    else if (age < 28 && health <= 30) {
+    else if (age < 28 && health <= 50) {
         role = new GathererRole();
         currentRoleIndex = 5;
     }
@@ -91,4 +92,12 @@ void Ant::setRole(Anthill* home) {
             }
         }
     }
+}
+
+void Ant::unsubscribeAll()
+{
+}
+
+void Ant::subscribeBasedOnRole()
+{
 }
